@@ -4,6 +4,13 @@ Author: Celogeek
 
 ## Requirement
 
+For build:
+
+ - base-devel
+ - pacmac-contrib
+
+For setup standalone jitsi-meet:
+
  - jitsi-meet-web
  - jitsi-meet-prosody
  - jitsi-meet-turnserver
@@ -12,6 +19,14 @@ Author: Celogeek
  - coturn
  - prosody
  - nginx
+
+## Install
+
+You can simply install all the packages by running:
+
+```
+./install.sh
+```
 
 ## Configure jitsi-meet
 
