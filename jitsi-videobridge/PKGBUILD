@@ -12,7 +12,7 @@ arch=('any')
 url="https://jitsi.org/jitsi-meet/"
 license=('Apache')
 depends=("java-runtime" "bash")
-optdepends=()
+optdepends=("prosody")
 makedepends=(
         "java-environment"
         "unzip" "maven"
@@ -36,7 +36,6 @@ source=(
         "tmpfiles.conf"
 	"sysctl"
 )
-groups=('celogeek')
 noextract=(
     "$pkgname-$pkgver.tar.gz"
 )
