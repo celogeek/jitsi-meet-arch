@@ -1,0 +1,41 @@
+_basename=jitsi-meet
+_tag_version=4627
+_tag=${_basename}_${_tag_version}
+_version=2.0.4627
+
+pkgname=${_basename}
+pkgver=${_version}
+pkgrel=1
+pkgdesc="Jitsi Meet"
+arch=('any')
+url="https://jitsi.org/jitsi-meet/"
+license=('Apache')
+depends=(
+		"jicofo"
+		"jitsi-meet-prosody"
+		"jitsi-meet-turnserver"
+		"jitsi-meet-web"
+		"jitsi-videobridge"
+		"nginx"
+		"coturn"
+		"prosody"
+		"lua52"
+		"lua52-sec"
+		"lua52-zlib"
+		"lua52-event"
+)
+optdepends=()
+makedepends=(
+)
+options=('!strip')
+backup=(
+)
+source=(
+	"service"
+)
+groups=('jitsi-meet', 'celogeek')
+
+package() {
+        install -Dm644 service "${pkgdir}/usr/lib/systemd/system/$pkgname.service"
+}
+sha256sums=('bec1f182378124d065ac69133de6f5aade755c201d54cfb22cb5acd159ca8a8f')
