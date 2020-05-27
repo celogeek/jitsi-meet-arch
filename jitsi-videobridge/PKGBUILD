@@ -39,6 +39,7 @@ source=(
 noextract=(
     "$pkgname-$pkgver.tar.gz"
 )
+groups=('jitsi-meet', 'celogeek')
 
 _jitsi_videobridge_package=jitsi-videobridge-2.1-SNAPSHOT
 

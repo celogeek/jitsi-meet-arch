@@ -30,6 +30,7 @@ source=(
         "sysusers.conf"
         "tmpfiles.conf"
 )
+groups=('jitsi-meet', 'celogeek')
 
 _jitsi_jicofo_package=jicofo-1.1-SNAPSHOT
 

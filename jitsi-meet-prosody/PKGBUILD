@@ -24,6 +24,7 @@ source=(
 noextract=(
     "$pkgname-$pkgver.tar.gz"
 )
+groups=('jitsi-meet', 'celogeek')
 
 prepare() {
   [ -d "$pkgname-$pkgver" ] && return 0
