@@ -12,6 +12,7 @@ StateDirectoryMode=0750
 LogsDirectory=jicofo
 LogsDirectoryMode=0750
 Restart=on-failure
+SuccessExitStatus=143
 
 # Hardening
 NoNewPrivileges=yes
