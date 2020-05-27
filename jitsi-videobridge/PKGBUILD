@@ -1,0 +1,87 @@
+_basename=jitsi
+_pkgname=videobridge
+_tag_version=4627
+_tag=jitsi-meet_${_tag_version}
+_version=2.1+202+g5f9377b9
+
+pkgname=${_basename}-${_pkgname}
+pkgver=${_version}
+pkgrel=1
+pkgdesc="Jitsi Meet Videobridge"
+arch=('any')
+url="https://jitsi.org/jitsi-meet/"
+license=('Apache')
+depends=("java-runtime" "bash")
+optdepends=()
+makedepends=(
+        "java-environment"
+        "unzip" "maven"
+)
+options=('!strip')
+backup=(
+  "etc/jitsi/videobridge/config"
+  "etc/jitsi/videobridge/log4j2.xml"
+  "etc/jitsi/videobridge/logging.properties"
+  "etc/jitsi/videobridge/callstats-java-sdk.properties"
+  "etc/jitsi/videobridge/sip-communicator.properties"
+)
+source=(
+        "$pkgname-$pkgver.tar.gz::https://github.com/jitsi/jitsi-videobridge/archive/stable/${_tag}.tar.gz"
+        "videobridge.callstats-java-sdk.properties"
+        "videobridge.config"
+        "videobridge.sip-communicator.properties"
+        "videobridge.log4j2.xml"
+        "videobridge.service"
+        "sysusers.conf"
+        "tmpfiles.conf"
+	"sysctl"
+)
+groups=('celogeek')
+noextract=(
+    "$pkgname-$pkgver.tar.gz"
+)
+
+_jitsi_videobridge_package=jitsi-videobridge-2.1-SNAPSHOT
+
+prepare() {
+  [ -d "$pkgname-$pkgver" ] && return 0
+  mkdir "$pkgname-$pkgver"
+  tar xzf "$pkgname-$pkgver.tar.gz" --strip 1 -C "$pkgname-$pkgver"
+}
+
+build() {
+	cd "$pkgname-$pkgver"
+	mvn package -DskipTests -Dassembly.skipAssembly=false
+}
+
+package() {
+	cd "$srcdir/$pkgname-$pkgver"
+
+        install -d "${pkgdir}/usr/share"
+        install -d "${pkgdir}/etc/jitsi"
+
+        unzip "target/${_jitsi_videobridge_package}-archive.zip" -d "${pkgdir}/usr/share/"
+        mv "${pkgdir}/usr/share/${_jitsi_videobridge_package}" "${pkgdir}/usr/share/jitsi-videobridge"
+
+        install -dm750 "${pkgdir}/etc/jitsi/videobridge"
+	install -Dm640 "lib/logging.properties" "${pkgdir}/etc/jitsi/videobridge/logging.properties"
+
+	cd "$srcdir"
+	for p in callstats-java-sdk.properties config log4j2.xml sip-communicator.properties
+	do
+		install -Dm640 "videobridge.${p}" "${pkgdir}/etc/jitsi/videobridge/${p}"
+	done
+        install -Dm644 "videobridge.service" "${pkgdir}/usr/lib/systemd/system/jitsi-videobridge.service"
+        install -Dm644 "sysusers.conf" "${pkgdir}/usr/lib/sysusers.d/$pkgname.conf"
+        install -Dm644 "tmpfiles.conf" "${pkgdir}/usr/lib/tmpfiles.d/$pkgname.conf"
+	install -Dm644 "sysctl" "${pkgdir}/etc/sysctl.d/jitsi-videobridge.conf"
+}
+sha256sums=('a9f57668426341ddc74518e0442b8514841898bef45e1f22c9252ac593d567a0'
+            '00c521a4c226deb3bebb8b4b6b68234283888464b889c705001b3371154fc9f0'
+            '46f686cd8ea6bb5f1ec6055d2f16cc72db4baf9d90dea234d10e661b50924624'
+            'cc9fbf77497bce3c9673b2d144928f11cdd0c0823940c2b60c8369a2f086b9b7'
+            '9fe70e519caa85471799e90749d390dfba561eb0be13ea1307a5efd777e63382'
+            '993a48122151312b064c9b74999d454e2a719335c74fb936eb658336169b98a1'
+            '998cbc64def56ab98080ff7150dd0913a5e10325cd2b038cf3db14baf8cb19fc'
+            '36548f4980dcdbb27e0738c3fd928005d49a7b5c2c65d7a583ebb445626074dd'
+            '192ebadf43c9b0bc22b3bdbc2b8f440aaf302fce919ccef43b62fa74bf34a14d')
