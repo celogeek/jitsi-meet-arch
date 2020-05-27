@@ -14,8 +14,16 @@ __EOF__
 
 
 sed -i "s@^_tag_version=.*@_tag_version=$JITSI_MEET_VERSION@; s@pkgrel=.*@pkgrel=1@" */PKGBUILD
-
 sed -i "s@^_version=.*@_version=$JITSI_MEET_WEB_VERSION@" jitsi-meet-web/PKGBUILD
+
+
+for i in */PKGBUILD
+do
+	cd "$(dirname "$i")"
+	updpkgsums
+	makepkg --printsrcinfo > .SRCINFO
+	cd ..
+done
 
 # updpkgsums
 # makepkg --printsrcinfo > .SRCINFO
