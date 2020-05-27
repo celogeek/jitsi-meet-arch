@@ -69,12 +69,10 @@ package() {
         install -d "${pkgdir}/usr/share/doc/jitsi/meet"
         cp -Rv "doc/debian/jitsi-meet" "${pkgdir}/usr/share/doc/jitsi/meet/web"
         
-	echo "System"
 	cd "$srcdir"
         install -Dm644 "sysusers.conf" "${pkgdir}/usr/lib/sysusers.d/$pkgname.conf"
         install -Dm644 "tmpfiles.conf" "${pkgdir}/usr/lib/tmpfiles.d/$pkgname.conf"
 
-        echo "Fixing"
         chown -R root:root "${pkgdir}"
 }
 sha256sums=('0c4a44205cf8e646d2423bfbff2e368128c31ccf1420bf622e25e915d52ed0e6'
