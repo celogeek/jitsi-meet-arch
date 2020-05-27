@@ -1,0 +1,75 @@
+_basename=jicofo
+_tag_version=4627
+_tag=jitsi-meet_${_tag_version}
+_version=1.0+589
+
+pkgname=${_basename}
+pkgver=${_version}
+pkgrel=1
+pkgdesc="Jicofo"
+arch=('any')
+url="https://jitsi.org/jitsi-meet/"
+license=('Apache')
+depends=("java-runtime" "bash")
+optdepends=("prosody")
+makedepends=(
+        "java-environment"
+        "unzip" "maven"
+)
+options=('!strip')
+backup=(
+  "etc/jitsi/jicofo/config"
+  "etc/jitsi/jicofo/logging.properties"
+  "etc/jitsi/jicofo/sip-communicator.properties"
+)
+source=(
+        "$pkgname-$pkgver.tar.gz::https://github.com/jitsi/jicofo/archive/stable/${_tag}.tar.gz"
+        "jicofo.config"
+        "jicofo.service"
+        "jicofo.sip-communicator.properties"
+        "sysusers.conf"
+        "tmpfiles.conf"
+)
+
+_jitsi_jicofo_package=jicofo-1.1-SNAPSHOT
+
+prepare() {
+  [ -d "$pkgname-$pkgver" ] && return 0
+  mkdir "$pkgname-$pkgver"
+  tar xzf "$pkgname-$pkgver.tar.gz" --strip 1 -C "$pkgname-$pkgver"
+}
+
+build() {
+	cd "$pkgname-$pkgver"
+	mvn package -DskipTests -Dassembly.skipAssembly=false
+}
+
+package() {
+	cd "$srcdir/$pkgname-$pkgver"
+
+        install -d "${pkgdir}/usr/share"
+        install -d "${pkgdir}/etc/jitsi"
+
+        unzip "target/${_jitsi_jicofo_package}-archive.zip" -d "${pkgdir}/usr/share/"
+        mv "${pkgdir}/usr/share/${_jitsi_jicofo_package}" "${pkgdir}/usr/share/jicofo"
+
+	install -Dm640 "lib/logging.properties" "${pkgdir}/etc/jitsi/jicofo/logging.properties"
+
+	cd "$srcdir"
+        install -dm750 "${pkgdir}/etc/jitsi/jicofo"
+        for p in config	sip-communicator.properties
+	do
+		install -Dm640 "jicofo.${p}" "${pkgdir}/etc/jitsi/jicofo/${p}"
+	done
+        install -Dm644 jicofo.service "${pkgdir}/usr/lib/systemd/system/jicofo.service"
+
+        echo "System"
+        install -Dm644 "sysusers.conf" "${pkgdir}/usr/lib/sysusers.d/jitsi.conf"
+        install -Dm644 "tmpfiles.conf" "${pkgdir}/usr/lib/tmpfiles.d/jitsi.conf"
+}
+sha256sums=('eaf298ee6c7c8e394ff58075e8f5f3d5791952ed2b6a1cac5596dad34113736d'
+            'fdd4dee8e2aefa17ecc7b4cddbddd5bf91bb05469a64ab0650846584a90ed3a2'
+            'fec1ae03cfe978f53812ae0886dcc5650e637bae5c094762d521dd10234d9788'
+            'f295f5f8ee13edd019defc037c60e04c6ea2d30e69cc4a896c010b8570f5efab'
+            '0681e97ca1e06d8ea7bdec0a874c6fc7a6ea84628923005130cd444547a1b440'
+            'b4ed1528f804056b43d47a8214f2ed853b31a8cedbafb96c26fae556df554be8')

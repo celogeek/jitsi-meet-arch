@@ -1,0 +1,32 @@
+pkgbase = jicofo
+	pkgdesc = Jicofo
+	pkgver = 1.0+589
+	pkgrel = 1
+	url = https://jitsi.org/jitsi-meet/
+	arch = any
+	license = Apache
+	makedepends = java-environment
+	makedepends = unzip
+	makedepends = maven
+	depends = java-runtime
+	depends = bash
+	optdepends = prosody
+	options = !strip
+	backup = etc/jitsi/jicofo/config
+	backup = etc/jitsi/jicofo/logging.properties
+	backup = etc/jitsi/jicofo/sip-communicator.properties
+	source = jicofo-1.0+589.tar.gz::https://github.com/jitsi/jicofo/archive/stable/jitsi-meet_4627.tar.gz
+	source = jicofo.config
+	source = jicofo.service
+	source = jicofo.sip-communicator.properties
+	source = sysusers.conf
+	source = tmpfiles.conf
+	sha256sums = eaf298ee6c7c8e394ff58075e8f5f3d5791952ed2b6a1cac5596dad34113736d
+	sha256sums = fdd4dee8e2aefa17ecc7b4cddbddd5bf91bb05469a64ab0650846584a90ed3a2
+	sha256sums = fec1ae03cfe978f53812ae0886dcc5650e637bae5c094762d521dd10234d9788
+	sha256sums = f295f5f8ee13edd019defc037c60e04c6ea2d30e69cc4a896c010b8570f5efab
+	sha256sums = 0681e97ca1e06d8ea7bdec0a874c6fc7a6ea84628923005130cd444547a1b440
+	sha256sums = b4ed1528f804056b43d47a8214f2ed853b31a8cedbafb96c26fae556df554be8
+
+pkgname = jicofo
+
