@@ -12,7 +12,7 @@ arch=('any')
 url="https://jitsi.org/jitsi-meet/"
 license=('Apache')
 depends=()
-optdepends=("prosody" "lua52" "lua52-sec" "lua52-zlib" "lua52-event")
+optdepends=("prosody" "lua52" "lua52-sec")
 makedepends=(
 )
 options=('!strip')
