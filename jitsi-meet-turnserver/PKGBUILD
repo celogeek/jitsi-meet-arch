@@ -1,0 +1,42 @@
+_basename=jitsi-meet
+_pkgname=turnserver
+_tag_version=4627
+_tag=${_basename}_${_tag_version}
+_version=1.0.4127
+
+pkgname=${_basename}-${_pkgname}
+pkgver=${_version}
+pkgrel=1
+pkgdesc="Jitsi Meet Prosody Plugins"
+arch=('any')
+url="https://jitsi.org/jitsi-meet/"
+license=('Apache')
+depends=()
+optdepends=("coturn")
+makedepends=(
+)
+options=('!strip')
+backup=(
+)
+source=(
+        "$pkgname-$pkgver.tar.gz::https://github.com/jitsi/jitsi-meet/archive/stable/${_tag}.tar.gz"
+)
+noextract=(
+    "$pkgname-$pkgver.tar.gz"
+)
+
+prepare() {
+  [ -d "$pkgname-$pkgver" ] && return 0
+  mkdir "$pkgname-$pkgver"
+  tar xzf "$pkgname-$pkgver.tar.gz" --strip 1 -C "$pkgname-$pkgver"
+}
+
+package() {
+	cd "$srcdir/$pkgname-$pkgver"
+
+        install -d "${pkgdir}/usr/share/$_basename"
+        install -d "${pkgdir}/usr/share/doc/jitsi/meet"
+
+        cp -Rv "doc/debian/jitsi-meet-turn" "${pkgdir}/usr/share/doc/jitsi/meet/turn"
+}
+sha256sums=('0c4a44205cf8e646d2423bfbff2e368128c31ccf1420bf622e25e915d52ed0e6')
