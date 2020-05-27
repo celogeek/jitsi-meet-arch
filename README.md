@@ -4,7 +4,11 @@ Author: Celogeek
 
 ## Requirement
 
- - jitsi-meet-stable
+ - jitsi-meet-web
+ - jitsi-meet-prosody
+ - jitsi-meet-turnserver
+ - jitsi-videobridge
+ - jicofo
  - coturn
  - prosody
  - nginx
