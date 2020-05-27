@@ -22,6 +22,7 @@ depends=(
 		"lua52"
 		"lua52-sec"
 		"lua52-zlib"
+		"lua52-event"
 )
 optdepends=()
 makedepends=(

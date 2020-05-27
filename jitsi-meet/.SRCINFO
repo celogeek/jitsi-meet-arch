@@ -18,6 +18,7 @@ pkgbase = jitsi-meet
 	depends = lua52
 	depends = lua52-sec
 	depends = lua52-zlib
+	depends = lua52-event
 	options = !strip
 	source = service
 	sha256sums = bec1f182378124d065ac69133de6f5aade755c201d54cfb22cb5acd159ca8a8f
