@@ -14,15 +14,11 @@ pkgbase = jitsi-meet-web
 	optdepends = nginx
 	noextract = jitsi-meet-web-1.0.4127.tar.gz
 	options = !strip
-	backup = etc/jitsi/meet/logging_config.js
-	backup = etc/jitsi/meet/config.js
-	backup = etc/jitsi/meet/interface_config.js
+	backup = etc/webapps/jitsi-meet-web/logging_config.js
+	backup = etc/webapps/jitsi-meet-web/config.js
+	backup = etc/webapps/jitsi-meet-web/interface_config.js
 	source = jitsi-meet-web-1.0.4127.tar.gz::https://github.com/jitsi/jitsi-meet/archive/stable/jitsi-meet_4627.tar.gz
-	source = tmpfiles.conf
-	source = sysusers.conf
 	sha256sums = 0c4a44205cf8e646d2423bfbff2e368128c31ccf1420bf622e25e915d52ed0e6
-	sha256sums = 1ca62a7ac7281bf8cedccffdfbe724842bc40dfa7500738bb705813f699f6a0e
-	sha256sums = d7e760805ec4c1a2f4a5850974e143b7ff6f8bd4f0c2b6873303f224b5c7c8f7
 
 pkgname = jitsi-meet-web
 
