@@ -34,10 +34,6 @@ prepare() {
 
 package() {
 	cd "$srcdir/$pkgname-$pkgver"
-
-        install -d "${pkgdir}/usr/share/$_basename"
-        install -d "${pkgdir}/usr/share/doc/jitsi/meet"
-
-        cp -Rv "doc/debian/jitsi-meet-turn" "${pkgdir}/usr/share/doc/jitsi/meet/turn"
+	install -Dm644 -t "${pkgdir}/usr/share/doc/${pkgname}" doc/debian/jitsi-meet-turn/turnserver.conf doc/debian/jitsi-meet/jitsi-meet.conf doc/debian/jitsi-meet-turn/coturn-certbot-deploy.sh
 }
 sha256sums=('0c4a44205cf8e646d2423bfbff2e368128c31ccf1420bf622e25e915d52ed0e6')
