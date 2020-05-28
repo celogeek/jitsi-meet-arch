@@ -19,29 +19,23 @@ makedepends=(
 )
 options=('!strip')
 backup=(
-  "etc/jitsi/videobridge/config"
-  "etc/jitsi/videobridge/log4j2.xml"
-  "etc/jitsi/videobridge/logging.properties"
-  "etc/jitsi/videobridge/callstats-java-sdk.properties"
-  "etc/jitsi/videobridge/sip-communicator.properties"
+  "etc/${pkgname}/config"
+  "etc/${pkgname}/log4j2.xml"
+  "etc/${pkgname}/logging.properties"
+  "etc/${pkgname}/sip-communicator.properties"
 )
 source=(
-        "$pkgname-$pkgver.tar.gz::https://github.com/jitsi/jitsi-videobridge/archive/stable/${_tag}.tar.gz"
-        "videobridge.callstats-java-sdk.properties"
-        "videobridge.config"
-        "videobridge.sip-communicator.properties"
-        "videobridge.log4j2.xml"
-        "videobridge.service"
+        "$pkgname-$pkgver.tar.gz::https://github.com/jitsi/${pkgname}/archive/stable/${_tag}.tar.gz"
+        "config"
+        "sip-communicator.properties"
+        "service"
         "sysusers.conf"
         "tmpfiles.conf"
-	"sysctl"
 )
 noextract=(
     "$pkgname-$pkgver.tar.gz"
 )
 groups=('jitsi-meet', 'celogeek')
-
-_jitsi_videobridge_package=jitsi-videobridge-2.1-SNAPSHOT
 
 prepare() {
   [ -d "$pkgname-$pkgver" ] && return 0
@@ -50,38 +44,37 @@ prepare() {
 }
 
 build() {
-	cd "$pkgname-$pkgver"
-	mvn package -DskipTests -Dassembly.skipAssembly=false
+        cd "$pkgname-$pkgver"
+        mvn clean
+        mvn package -DskipTests -Dassembly.skipAssembly=true
+        mvn dependency:copy-dependencies -DincludeScope=runtime
 }
 
 package() {
 	cd "$srcdir/$pkgname-$pkgver"
 
-        install -d "${pkgdir}/usr/share"
-        install -d "${pkgdir}/etc/jitsi"
+        DESTDIR="${pkgdir}/usr/lib/${pkgname}"
+        CONFDIR="${pkgdir}/etc/${pkgname}"
 
-        unzip "target/${_jitsi_videobridge_package}-archive.zip" -d "${pkgdir}/usr/share/"
-        mv "${pkgdir}/usr/share/${_jitsi_videobridge_package}" "${pkgdir}/usr/share/jitsi-videobridge"
+        install -Dm644 -t "${DESTDIR}/lib" target/dependency/* lib/videobridge.rc
+        install -Dm644 target/${pkgname}*.jar "${DESTDIR}/${pkgname}.jar"
+        install -Dm755 -t "${DESTDIR}" "resources/jvb.sh"
 
-        install -dm750 "${pkgdir}/etc/jitsi/videobridge"
-	install -Dm640 "lib/logging.properties" "${pkgdir}/etc/jitsi/videobridge/logging.properties"
+	install -dm750 "${CONFDIR}"
+        install -Dm640 -t "${CONFDIR}" "lib/logging.properties" "config/log4j2.xml" "config/callstats-java-sdk.properties"
+	sed -i 's@logs@/var/log/jitsi-videobridge@' "${CONFDIR}/log4j2.xml"
+
+	install -Dm644 "config/20-jvb-udp-buffers.conf" "${pkgdir}/etc/sysctl.d/${pkgname}.conf"
 
 	cd "$srcdir"
-	for p in callstats-java-sdk.properties config log4j2.xml sip-communicator.properties
-	do
-		install -Dm640 "videobridge.${p}" "${pkgdir}/etc/jitsi/videobridge/${p}"
-	done
-        install -Dm644 "videobridge.service" "${pkgdir}/usr/lib/systemd/system/jitsi-videobridge.service"
+        install -Dm640 -t "${CONFDIR}" "config" "sip-communicator.properties"
+        install -Dm644 "service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
         install -Dm644 "sysusers.conf" "${pkgdir}/usr/lib/sysusers.d/$pkgname.conf"
         install -Dm644 "tmpfiles.conf" "${pkgdir}/usr/lib/tmpfiles.d/$pkgname.conf"
-	install -Dm644 "sysctl" "${pkgdir}/etc/sysctl.d/jitsi-videobridge.conf"
 }
 sha256sums=('a9f57668426341ddc74518e0442b8514841898bef45e1f22c9252ac593d567a0'
-            '00c521a4c226deb3bebb8b4b6b68234283888464b889c705001b3371154fc9f0'
-            '46f686cd8ea6bb5f1ec6055d2f16cc72db4baf9d90dea234d10e661b50924624'
+            '5c79dc1e1f5ee04eba3da987c488fc53cb6e4348345cab05ab0ed6d7000f3d9d'
             'cc9fbf77497bce3c9673b2d144928f11cdd0c0823940c2b60c8369a2f086b9b7'
-            '9fe70e519caa85471799e90749d390dfba561eb0be13ea1307a5efd777e63382'
-            '0e69604a5c7212eec2de58e5cc106812699cd56d48690ec83ad397d7a7e2eb0d'
+            '160231d583233a000e9dc9015e4b89e1737b8b9514d4ed6b50b0a7887070a4ae'
             '998cbc64def56ab98080ff7150dd0913a5e10325cd2b038cf3db14baf8cb19fc'
-            '36548f4980dcdbb27e0738c3fd928005d49a7b5c2c65d7a583ebb445626074dd'
-            '192ebadf43c9b0bc22b3bdbc2b8f440aaf302fce919ccef43b62fa74bf34a14d')
+            '4dd8141e71bbf73b39cf242902e1c1a84a38dc3160ff89e76883d999af10541c')
