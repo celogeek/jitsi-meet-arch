@@ -18,21 +18,22 @@ makedepends=(
 )
 options=('!strip')
 backup=(
-  "etc/jitsi/jicofo/config"
-  "etc/jitsi/jicofo/logging.properties"
-  "etc/jitsi/jicofo/sip-communicator.properties"
+  "etc/${pkgname}/config"
+  "etc/${pkgname}/logging.properties"
+  "etc/${pkgname}/sip-communicator.properties"
 )
 source=(
-        "$pkgname-$pkgver.tar.gz::https://github.com/jitsi/jicofo/archive/stable/${_tag}.tar.gz"
-        "jicofo.config"
-        "jicofo.service"
-        "jicofo.sip-communicator.properties"
+        "$pkgname-$pkgver.tar.gz::https://github.com/jitsi/${pkgname}/archive/stable/${_tag}.tar.gz"
+        "config"
+        "sip-communicator.properties"
+        "service"
         "sysusers.conf"
         "tmpfiles.conf"
 )
 groups=('jitsi-meet', 'celogeek')
-
-_jitsi_jicofo_package=jicofo-1.1-SNAPSHOT
+noextract=(
+        "$pkgname-$pkgver.tar.gz"
+)
 
 prepare() {
   [ -d "$pkgname-$pkgver" ] && return 0
@@ -41,36 +42,35 @@ prepare() {
 }
 
 build() {
-	cd "$pkgname-$pkgver"
-	mvn package -DskipTests -Dassembly.skipAssembly=false
+        cd "$pkgname-$pkgver"
+        mvn clean
+        mvn package -DskipTests -Dassembly.skipAssembly=true
+        mvn dependency:copy-dependencies -DincludeScope=runtime
 }
 
 package() {
-	cd "$srcdir/$pkgname-$pkgver"
+        cd "$srcdir/$pkgname-$pkgver"
+        
+        DESTDIR="${pkgdir}/usr/lib/${pkgname}"
+        CONFDIR="${pkgdir}/etc/${pkgname}"
 
-        install -d "${pkgdir}/usr/share"
-        install -d "${pkgdir}/etc/jitsi"
+        install -Dm644 -t "${DESTDIR}/lib" target/dependency/*
+        install -Dm644 target/jicofo*.jar "${DESTDIR}/jicofo.jar"
 
-        unzip "target/${_jitsi_jicofo_package}-archive.zip" -d "${pkgdir}/usr/share/"
-        mv "${pkgdir}/usr/share/${_jitsi_jicofo_package}" "${pkgdir}/usr/share/jicofo"
+	install -dm750 "${CONFDIR}"
+        install -Dm640 -t "${CONFDIR}" "lib/logging.properties"
+        install -Dm755 -t "${DESTDIR}" "resources/jicofo.sh"
 
-	install -Dm640 "lib/logging.properties" "${pkgdir}/etc/jitsi/jicofo/logging.properties"
+        cd "$srcdir"
+        install -Dm640 -t "${CONFDIR}" "config" "sip-communicator.properties"
+        install -Dm644 "service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
 
-	cd "$srcdir"
-        install -dm750 "${pkgdir}/etc/jitsi/jicofo"
-        for p in config	sip-communicator.properties
-	do
-		install -Dm640 "jicofo.${p}" "${pkgdir}/etc/jitsi/jicofo/${p}"
-	done
-        install -Dm644 jicofo.service "${pkgdir}/usr/lib/systemd/system/jicofo.service"
-
-        echo "System"
         install -Dm644 "sysusers.conf" "${pkgdir}/usr/lib/sysusers.d/jitsi.conf"
         install -Dm644 "tmpfiles.conf" "${pkgdir}/usr/lib/tmpfiles.d/jitsi.conf"
 }
 sha256sums=('eaf298ee6c7c8e394ff58075e8f5f3d5791952ed2b6a1cac5596dad34113736d'
-            'fdd4dee8e2aefa17ecc7b4cddbddd5bf91bb05469a64ab0650846584a90ed3a2'
-            'a8ca02785c18b7802bddf2c4f04bc38dfce9a2dfa2b0aebcbc38f27883d42df1'
+            'ba5dffb6cbf6c3cc20a52cbfa34c6796a2571f4bba45054d95477744caeaf8a9'
             'f295f5f8ee13edd019defc037c60e04c6ea2d30e69cc4a896c010b8570f5efab'
+            'e8a86b25f59fd32b6dc4ed1b2c54530b70181010172a8b96f2ebd1f05a3a285f'
             '0681e97ca1e06d8ea7bdec0a874c6fc7a6ea84628923005130cd444547a1b440'
-            'b4ed1528f804056b43d47a8214f2ed853b31a8cedbafb96c26fae556df554be8')
+            '2e8ee4baac220977a84496cc040e55ed644aa305a1db895914dfc62215a89a65')
