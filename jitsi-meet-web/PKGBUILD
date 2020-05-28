@@ -14,19 +14,17 @@ license=('Apache')
 depends=()
 optdepends=("nginx")
 makedepends=(
-	"python" "python2"
+        "python" "python2"
         "nodejs" "npm"
 )
 options=('!strip')
 backup=(
-  "etc/jitsi/meet/logging_config.js"
-  "etc/jitsi/meet/config.js"
-  "etc/jitsi/meet/interface_config.js"
+  "etc/webapps/${pkgname}/logging_config.js"
+  "etc/webapps/${pkgname}/config.js"
+  "etc/webapps/${pkgname}/interface_config.js"
 )
 source=(
         "$pkgname-$pkgver.tar.gz::https://github.com/jitsi/jitsi-meet/archive/stable/${_tag}.tar.gz"
-	"tmpfiles.conf"
-	"sysusers.conf"
 )
 noextract=(
     "$pkgname-$pkgver.tar.gz"
@@ -40,42 +38,40 @@ prepare() {
 }
 
 build() {
-	cd "$pkgname-$pkgver"
-	npm install
-	make
-	make source-package
+        cd "$pkgname-$pkgver"
+        npm install
+        make
+        make source-package
 }
 
 package() {
-	cd "$srcdir/$pkgname-$pkgver"
+        cd "$srcdir/$pkgname-$pkgver"
 
-        install -d "${pkgdir}/usr/share/$_basename"
-        install -d "${pkgdir}/etc/jitsi/meet"
-        tar xjvf "jitsi-meet.tar.bz2" -C "${pkgdir}/usr/share/jitsi-meet" --strip 1
+        DESTDIR="${pkgdir}/usr/share/webapps/${pkgname}"
+        CONFDIR="${pkgdir}/etc/webapps/${pkgname}"
 
-	for c in $(ls "node_modules/i18n-iso-countries/langs")
+        install -d "$DESTDIR"
+        install -d "$CONFDIR"
+
+        tar xjvf "jitsi-meet.tar.bz2" -C "$DESTDIR" --strip 1
+
+        for c in $(ls "node_modules/i18n-iso-countries/langs")
         do
-            install -m644 "node_modules/i18n-iso-countries/langs/${c}" "${pkgdir}/usr/share/jitsi-meet/lang/countries-${c}"
+            install -m644 "node_modules/i18n-iso-countries/langs/${c}" "${DESTDIR}/lang/countries-${c}"
         done
 
-        find "${pkgdir}/usr/share/jitsi-meet" -type f -execdir sed -i "s#${srcdir}##g" "{}" \;
-        find "${pkgdir}/usr/share/jitsi-meet" -type d -exec chmod 755 {} \;
+        find "$DESTDIR" -type f -execdir sed -i "s#${srcdir}##g" "{}" \;
+        find "$DESTDIR" -type d -exec chmod 755 {} \;
 
         for i in interface_config.js logging_config.js config.js
         do
-                install -Dm644 "${pkgdir}/usr/share/jitsi-meet/${i}" "${pkgdir}/etc/jitsi/meet/${i}"
-                ln -sf "/etc/jitsi/meet/${i}" "${pkgdir}/usr/share/jitsi-meet/${i}"
+                install -Dm644 "$DESTDIR/${i}" "$CONFDIR/${i}"
+                ln -sf "/etc/webapps/${pkgname}/${i}" "$DESTDIR/${i}"
         done
 
-        install -d "${pkgdir}/usr/share/doc/jitsi/meet"
-        cp -Rv "doc/debian/jitsi-meet" "${pkgdir}/usr/share/doc/jitsi/meet/web"
+        install -Dm644 -t "${pkgdir}/usr/share/doc/${pkgname}" doc/debian/jitsi-meet/jitsi-meet.example doc/debian/jitsi-meet/jitsi-meet.example-apache config.js
+        sed -i 's@/usr/share/jitsi-meet@/usr/share/webapps/jitsi-meet-web@' "${pkgdir}/usr/share/doc/${pkgname}/"*
         
-	cd "$srcdir"
-        install -Dm644 "sysusers.conf" "${pkgdir}/usr/lib/sysusers.d/$pkgname.conf"
-        install -Dm644 "tmpfiles.conf" "${pkgdir}/usr/lib/tmpfiles.d/$pkgname.conf"
-
         chown -R root:root "${pkgdir}"
 }
-sha256sums=('0c4a44205cf8e646d2423bfbff2e368128c31ccf1420bf622e25e915d52ed0e6'
-            '1ca62a7ac7281bf8cedccffdfbe724842bc40dfa7500738bb705813f699f6a0e'
-            'd7e760805ec4c1a2f4a5850974e143b7ff6f8bd4f0c2b6873303f224b5c7c8f7')
+sha256sums=('0c4a44205cf8e646d2423bfbff2e368128c31ccf1420bf622e25e915d52ed0e6')
