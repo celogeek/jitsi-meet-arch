@@ -33,12 +33,12 @@ prepare() {
 }
 
 package() {
-	cd "$srcdir/$pkgname-$pkgver"
+        cd "$srcdir/$pkgname-$pkgver"
 
-        install -d "${pkgdir}/usr/share/$_basename"
-        install -d "${pkgdir}/usr/share/doc/jitsi/meet"
+        install -Dm644 -t "${pkgdir}/usr/share/doc/${pkgname}" doc/debian/jitsi-meet-prosody/prosody.cfg.lua-jvb.example 
+        sed -i 's@/usr/share/jitsi-meet/prosody-plugins/@/usr/lib/jitsi-meet-prosody@' "${pkgdir}/usr/share/doc/${pkgname}/prosody.cfg.lua-jvb.example"
 
-        cp -Rv "resources/prosody-plugins" "${pkgdir}/usr/share/jitsi-meet-prosody-plugins"
-        cp -Rv "doc/debian/jitsi-meet-prosody" "${pkgdir}/usr/share/doc/jitsi/meet/prosody"
+        install -d "${pkgdir}/usr/lib"
+        cp -Rv "resources/prosody-plugins" "${pkgdir}/usr/lib/${pkgname}"
 }
 sha256sums=('0c4a44205cf8e646d2423bfbff2e368128c31ccf1420bf622e25e915d52ed0e6')
