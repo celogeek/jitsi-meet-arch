@@ -1,13 +1,13 @@
 #!/bin/sh
-for i in */PKGBUILD
+
+set -e -x
+
+yay -S --needed --noconfirm nginx coturn prosody lua52 lua52-sec lua52-zlib lua52-event
+
+for i in jicofo jitsi-meet-prosody jitsi-meet-turnserver jitsi-meet-web jitsi-videobridge jitsi-meet
 do
-	cd "$(dirname "$i")"
+	cd "$i"
 	echo Y | makepkg -sfi
-	cd ..
+	cd -
 done
 
-sudo systemctl daemon-reload
-for c in disable enable stop start
-do
-	sudo systemctl $c jitsi-meet
-done
