@@ -1,6 +1,6 @@
 [Unit]
 Description=Jitsi-Meet Videobridge
-After=network-online.target
+After=network-online.target prosody.service
 
 [Service]
 EnvironmentFile=/etc/jitsi-videobridge/config

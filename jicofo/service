@@ -1,6 +1,6 @@
 [Unit]
 Description=Jitsi-Meet Conference Focus
-After=network-online.target
+After=network-online.target prosody.service
 
 [Service]
 EnvironmentFile=/etc/jicofo/config
