@@ -1,6 +1,6 @@
 pkgbase = jitsi-meet-web
 	pkgdesc = Jitsi Meet Web
-	pkgver = 1.0.4127
+	pkgver = 1.0.4289
 	pkgrel = 1
 	url = https://jitsi.org/jitsi-meet/
 	arch = any
@@ -12,13 +12,13 @@ pkgbase = jitsi-meet-web
 	makedepends = nodejs
 	makedepends = npm
 	optdepends = nginx
-	noextract = jitsi-meet-web-1.0.4127.tar.gz
+	noextract = jitsi-meet-web-1.0.4289.tar.gz
 	options = !strip
 	backup = etc/webapps/jitsi-meet-web/logging_config.js
 	backup = etc/webapps/jitsi-meet-web/config.js
 	backup = etc/webapps/jitsi-meet-web/interface_config.js
-	source = jitsi-meet-web-1.0.4127.tar.gz::https://github.com/jitsi/jitsi-meet/archive/stable/jitsi-meet_4627.tar.gz
-	sha256sums = 0c4a44205cf8e646d2423bfbff2e368128c31ccf1420bf622e25e915d52ed0e6
+	source = jitsi-meet-web-1.0.4289.tar.gz::https://github.com/jitsi/jitsi-meet/archive/stable/jitsi-meet_4857.tar.gz
+	sha256sums = f15f9060ddbc650724563d12bfc8f85c88d303ea823fbb402b462d11e23473cd
 
 pkgname = jitsi-meet-web
 

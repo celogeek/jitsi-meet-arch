@@ -1,11 +1,11 @@
 [Unit]
 Description=Jitsi-Meet Videobridge
-After=network-online.target prosody.service
+After=network-online.target
 
 [Service]
 EnvironmentFile=/etc/jitsi-videobridge/config
 User=jvb
-ExecStart=/usr/lib/jitsi-videobridge/jvb.sh --host=${JVB_HOST} --domain=${JVB_HOSTNAME} --port=${JVB_PORT} --secret=${JVB_SECRET} ${JVB_OPTS}
+ExecStart=/usr/lib/jitsi-videobridge/jvb.sh ${JVB_OPTS}
 WorkingDirectory=~
 StateDirectory=jitsi-videobridge
 StateDirectoryMode=0750

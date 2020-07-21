@@ -1,11 +1,11 @@
 [Unit]
 Description=Jitsi-Meet Conference Focus
-After=network-online.target prosody.service
+After=network-online.target
 
 [Service]
 EnvironmentFile=/etc/jicofo/config
 User=jicofo
-ExecStart=/usr/lib/jicofo/jicofo.sh --host=${JICOFO_HOST} --domain=${JICOFO_HOSTNAME} --port=${JICOFO_PORT} --secret=${JICOFO_SECRET} --user_name=${JICOFO_AUTH_USER} --user_domain=${JICOFO_AUTH_DOMAIN} --user_password=${JICOFO_AUTH_PASSWORD} ${JICOFO_OPTS}
+ExecStart=/usr/lib/jicofo/jicofo.sh --host=${JICOFO_HOST} --domain=${JICOFO_HOSTNAME} --port=${JICOFO_PORT} --user_name=${JICOFO_AUTH_USER} --user_domain=${JICOFO_AUTH_DOMAIN} ${JICOFO_OPTS}
 WorkingDirectory=~
 StateDirectory=jicofo
 StateDirectoryMode=0750
