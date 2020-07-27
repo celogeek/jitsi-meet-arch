@@ -46,7 +46,7 @@ prepare() {
 build() {
         cd "$pkgname-$pkgver"
         mvn clean
-        mvn package -DskipTests -Dassembly.skipAssembly=true
+        mvn package -DskipTests -Dassembly.skipAssembly=true install
         mvn dependency:copy-dependencies -DincludeScope=runtime
 }
 
