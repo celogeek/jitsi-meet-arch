@@ -1,8 +1,8 @@
 _basename=jitsi-meet
 _pkgname=prosody
-_tag_version=4857
+_tag_version=5142
 _tag=${_basename}_${_tag_version}
-_version=1.0.4289
+_version=2.0.5142
 
 pkgname=${_basename}-${_pkgname}
 pkgver=${_version}
@@ -36,9 +36,9 @@ package() {
         cd "$srcdir/$pkgname-$pkgver"
 
         install -Dm644 -t "${pkgdir}/usr/share/doc/${pkgname}" doc/debian/jitsi-meet-prosody/prosody.cfg.lua-jvb.example 
-        sed -i 's@/usr/share/jitsi-meet/prosody-plugins/@/usr/lib/jitsi-meet-prosody@' "${pkgdir}/usr/share/doc/${pkgname}/prosody.cfg.lua-jvb.example"
+        sed -i 's@/usr/share/jitsi-meet/prosody-plugins/@/usr/lib/'$pkgname'@' "${pkgdir}/usr/share/doc/${pkgname}/prosody.cfg.lua-jvb.example"
 
         install -d "${pkgdir}/usr/lib"
         cp -Rv "resources/prosody-plugins" "${pkgdir}/usr/lib/${pkgname}"
 }
-sha256sums=('f15f9060ddbc650724563d12bfc8f85c88d303ea823fbb402b462d11e23473cd')
+sha256sums=('657dc093f716bb547fee8e6f6b6541933025feb82f9fc8d14a53e52b20f78542')

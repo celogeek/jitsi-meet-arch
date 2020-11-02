@@ -6,12 +6,17 @@ After=network-online.target
 EnvironmentFile=/etc/jitsi-videobridge/config
 User=jvb
 ExecStart=/usr/lib/jitsi-videobridge/jvb.sh ${JVB_OPTS}
-WorkingDirectory=~
+WorkingDirectory=/var/lib/jitsi-videobridge
 StateDirectory=jitsi-videobridge
 StateDirectoryMode=0750
 LogsDirectory=jitsi-videobridge
 LogsDirectoryMode=0750
+ConfigurationDirectory=jitsi-videobridge
+ConfigurationDirectoryMode=0700
+
 Restart=on-failure
+RestartSec=2
+
 SuccessExitStatus=143
 
 # more threads for this process

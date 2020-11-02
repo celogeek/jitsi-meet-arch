@@ -1,6 +1,6 @@
 pkgbase = jitsi-meet
 	pkgdesc = Jitsi Meet
-	pkgver = 2.0.4857
+	pkgver = 2.0.5142
 	pkgrel = 1
 	url = https://jitsi.org/jitsi-meet/
 	arch = any

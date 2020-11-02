@@ -1,13 +1,13 @@
 {
-  "url": "https://api.github.com/repos/jitsi/jitsi-meet/releases/28749765",
-  "assets_url": "https://api.github.com/repos/jitsi/jitsi-meet/releases/28749765/assets",
-  "upload_url": "https://uploads.github.com/repos/jitsi/jitsi-meet/releases/28749765/assets{?name,label}",
-  "html_url": "https://github.com/jitsi/jitsi-meet/releases/tag/stable/jitsi-meet_4857",
-  "id": 28749765,
-  "node_id": "MDc6UmVsZWFzZTI4NzQ5NzY1",
-  "tag_name": "stable/jitsi-meet_4857",
+  "url": "https://api.github.com/repos/jitsi/jitsi-meet/releases/32573829",
+  "assets_url": "https://api.github.com/repos/jitsi/jitsi-meet/releases/32573829/assets",
+  "upload_url": "https://uploads.github.com/repos/jitsi/jitsi-meet/releases/32573829/assets{?name,label}",
+  "html_url": "https://github.com/jitsi/jitsi-meet/releases/tag/stable/jitsi-meet_5142",
+  "id": 32573829,
+  "node_id": "MDc6UmVsZWFzZTMyNTczODI5",
+  "tag_name": "stable/jitsi-meet_5142",
   "target_commitish": "master",
-  "name": "1.0.4289",
+  "name": "2.0.5142",
   "draft": false,
   "author": {
     "login": "jitsi-jenkins",
@@ -30,14 +30,14 @@
     "site_admin": false
   },
   "prerelease": false,
-  "created_at": "2020-07-20T17:59:31Z",
-  "published_at": "2020-07-20T17:59:38Z",
+  "created_at": "2020-10-14T16:26:20Z",
+  "published_at": "2020-10-14T16:26:27Z",
   "assets": [
     {
-      "url": "https://api.github.com/repos/jitsi/jitsi-meet/releases/assets/23066481",
-      "id": 23066481,
-      "node_id": "MDEyOlJlbGVhc2VBc3NldDIzMDY2NDgx",
-      "name": "jitsi-meet_1.0.4289_CHANGELOG.txt",
+      "url": "https://api.github.com/repos/jitsi/jitsi-meet/releases/assets/26987022",
+      "id": 26987022,
+      "node_id": "MDEyOlJlbGVhc2VBc3NldDI2OTg3MDIy",
+      "name": "jitsi-meet_1.0.4466_CHANGELOG.txt",
       "label": "",
       "uploader": {
         "login": "jitsi-jenkins",
@@ -61,14 +61,14 @@
       },
       "content_type": "text/markdown",
       "state": "uploaded",
-      "size": 15412,
-      "download_count": 294,
-      "created_at": "2020-07-20T17:59:38Z",
-      "updated_at": "2020-07-20T17:59:38Z",
-      "browser_download_url": "https://github.com/jitsi/jitsi-meet/releases/download/stable/jitsi-meet_4857/jitsi-meet_1.0.4289_CHANGELOG.txt"
+      "size": 6243,
+      "download_count": 346,
+      "created_at": "2020-10-14T16:26:27Z",
+      "updated_at": "2020-10-14T16:26:27Z",
+      "browser_download_url": "https://github.com/jitsi/jitsi-meet/releases/download/stable/jitsi-meet_5142/jitsi-meet_1.0.4466_CHANGELOG.txt"
     }
   ],
-  "tarball_url": "https://api.github.com/repos/jitsi/jitsi-meet/tarball/stable/jitsi-meet_4857",
-  "zipball_url": "https://api.github.com/repos/jitsi/jitsi-meet/zipball/stable/jitsi-meet_4857",
+  "tarball_url": "https://api.github.com/repos/jitsi/jitsi-meet/tarball/stable/jitsi-meet_5142",
+  "zipball_url": "https://api.github.com/repos/jitsi/jitsi-meet/zipball/stable/jitsi-meet_5142",
   "body": null
 }

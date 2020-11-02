@@ -1,7 +1,7 @@
 _basename=jicofo
-_tag_version=4857
+_tag_version=5142
 _tag=jitsi-meet_${_tag_version}
-_version=1.0+612
+_version=2.0.5142
 
 pkgname=${_basename}
 pkgver=${_version}
@@ -21,6 +21,7 @@ backup=(
   "etc/${pkgname}/config"
   "etc/${pkgname}/logging.properties"
   "etc/${pkgname}/sip-communicator.properties"
+  "etc/${pkgname}/jicofo.conf"
 )
 source=(
         "$pkgname-$pkgver.tar.gz::https://github.com/jitsi/${pkgname}/archive/stable/${_tag}.tar.gz"
@@ -57,20 +58,22 @@ package() {
         install -Dm644 -t "${DESTDIR}/lib" target/dependency/*
         install -Dm644 target/jicofo*.jar "${DESTDIR}/jicofo.jar"
 
-	install -dm750 "${CONFDIR}"
-        install -Dm640 -t "${CONFDIR}" "lib/logging.properties"
+	install -dm700 "${CONFDIR}"
+        install -Dm600 -t "${CONFDIR}" "lib/logging.properties"
+        install -Dm600 "src/main/resources/reference.conf" "${CONFDIR}/jicofo.conf"
         install -Dm755 -t "${DESTDIR}" "resources/jicofo.sh"
+        sed -i 's@/var/log/jitsi@/var/log/'${pkgname}'@' "${CONFDIR}/logging.properties"
 
         cd "$srcdir"
-        install -Dm640 -t "${CONFDIR}" "config" "sip-communicator.properties"
+        install -Dm600 -t "${CONFDIR}" "config" "sip-communicator.properties"
         install -Dm644 "service" "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
 
         install -Dm644 "sysusers.conf" "${pkgdir}/usr/lib/sysusers.d/$pkgname.conf"
         install -Dm644 "tmpfiles.conf" "${pkgdir}/usr/lib/tmpfiles.d/$pkgname.conf"
 }
-sha256sums=('84f50d9e7b3561054b342cb776613ed3ba9f49e0198971b16fe2ecc97a8cfa5b'
-            '537d93f8f8e046c536139f0a75acdf86e2f2bf35d562a012e26a0bcfe6446eaa'
+sha256sums=('1391b517ebc2e1b18c42c542402bfa96e7557369cc42ff1b395fb9b7a936b8d4'
+            'a74191bf1128b5258a3c764a9d7ddfd7c36213b8bec14e0eeb92ddcd887f9512'
             'f295f5f8ee13edd019defc037c60e04c6ea2d30e69cc4a896c010b8570f5efab'
-            '0fd4da92b61bf6299d414f660159fa9ce47caf3b002f75fda82f18ee0e594695'
+            'e594dc9e6292d8bd15b225113971b96d85f410c2f47dadc0bdcffa382669ded2'
             '0681e97ca1e06d8ea7bdec0a874c6fc7a6ea84628923005130cd444547a1b440'
-            '2e8ee4baac220977a84496cc040e55ed644aa305a1db895914dfc62215a89a65')
+            '9f6fb4759099feefaee6fd44cac5854401e58f7ce929949cbc3994faaa3487d3')
