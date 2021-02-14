@@ -2,6 +2,15 @@
 
 set -e
 
+cat <<__EOF__
+This package is deprecated.
+I now maintain the package on AUR, so use this one instead.
+
+Take a look at the "From AUR" section. And pick the stable version.
+__EOF__
+exit
+
+
 curl -s https://api.github.com/repos/jitsi/jitsi-meet/releases/latest > RELEASE
 
 JITSI_MEET_VERSION=$(jq -r ".tag_name[18:]" RELEASE)
